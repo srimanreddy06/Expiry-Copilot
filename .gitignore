@@ -40,8 +40,15 @@ Thumbs.db
 
 # Environments
 .env
-.env.*
+.env.local
+.env.*.local
 backend/.env
 frontend/.env
-frontend/.env.*
+frontend/.env.local
+frontend/.env.*.local
+
+# Allow example env files are okay to commit
+!.env.example
+!backend/.env.example
+!frontend/.env.example
 

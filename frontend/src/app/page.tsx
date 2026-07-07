@@ -271,8 +271,10 @@ export default function Home() {
   const initializeGoogleSignIn = () => {
     if (typeof window !== "undefined" && (window as any).google && !token) {
       try {
+        const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID;
+        console.log("Google Client ID from env:", clientId);
         (window as any).google.accounts.id.initialize({
-          client_id: process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID,
+          client_id: clientId,
           callback: async (response: any) => {
             if (response.credential) {
               await handleGoogleLogin(response.credential);
