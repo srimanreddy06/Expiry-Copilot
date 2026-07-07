@@ -1,0 +1,47 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.venv/
+venv/
+ENV/
+env/
+*.db
+expiry_copilot.db
+backend/expiry_copilot.db
+virtual_date_offset.txt
+backend/virtual_date_offset.txt
+
+# Node / Frontend
+node_modules/
+.next/
+out/
+build/
+.pnp
+.pnp.*
+
+# IDEs
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Gemini / Agents
+.agents/
+.gemini/
+.system_generated/
+
+# Environments
+.env
+.env.*
+backend/.env
+frontend/.env
+frontend/.env.*
+
