@@ -285,7 +285,7 @@ export default function Home() {
         if (buttonDiv && buttonDiv.children.length === 0) {
           (window as any).google.accounts.id.renderButton(
             buttonDiv,
-            { theme: "outline", size: "large", width: "100%" }
+            { theme: "outline", size: "large" }
           );
         }
       } catch (e) {
