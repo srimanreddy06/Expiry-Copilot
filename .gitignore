@@ -52,3 +52,7 @@ frontend/.env.*.local
 !backend/.env.example
 !frontend/.env.example
 
+# Local git portables
+.git-portable/
+mingit.zip
+

@@ -130,14 +130,18 @@ void mainImage(out vec4 fragColor, in vec2 fragCoord) {
     baseUv += parallaxOffset;
   }
 
+  // Zoom out scaling (e.g. 2.5) to make lines thinner and less zoomed-in
+  baseUv *= 2.5;
+
   vec3 col = vec3(0.0);
 
-  vec3 b = lineGradientCount > 0 ? vec3(0.0) : background_color(baseUv);
+  vec3 b = lineGradientCount > 0 ? vec3(0.0) : background_color(baseUv / 2.5);
 
   vec2 mouseUv = vec2(0.0);
   if (interactive) {
     mouseUv = (2.0 * iMouse - iResolution.xy) / iResolution.y;
     mouseUv.y *= -1.0;
+    mouseUv *= 2.5;
   }
   
   if (enableBottom) {
@@ -231,20 +235,14 @@ function hexToVec3(hex: string): Vector3 {
   return new Vector3(r / 255, g / 255, b / 255);
 }
 
-interface WavePosition {
-  x: number;
-  y: number;
-  rotate: number;
-}
-
 interface FloatingLinesProps {
   linesGradient?: string[];
   enabledWaves?: Array<'top' | 'middle' | 'bottom'>;
   lineCount?: number | number[];
   lineDistance?: number | number[];
-  topWavePosition?: WavePosition;
-  middleWavePosition?: WavePosition;
-  bottomWavePosition?: WavePosition;
+  topWavePosition?: { x: number; y: number; rotate: number };
+  middleWavePosition?: { x: number; y: number; rotate: number };
+  bottomWavePosition?: { x: number; y: number; rotate: number };
   animationSpeed?: number;
   interactive?: boolean;
   bendRadius?: number;

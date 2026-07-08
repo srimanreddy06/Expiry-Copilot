@@ -63,7 +63,6 @@ import {
   simulatorApi,
   reportsApi,
   isAuthenticated
-} from "../lib/api";
 import FloatingLines from "@/components/FloatingLines";
 
 export default function Home() {
@@ -663,7 +662,14 @@ export default function Home() {
           {showLogin ? (
             <div className="w-full flex items-center justify-center py-6">
               <div className="glass-panel w-full max-w-md p-8 relative">
-                <div className="flex flex-col items-center mb-8">
+                <button
+                  onClick={() => setShowLogin(false)}
+                  className="absolute top-6 left-6 text-xs text-zinc-500 hover:text-white flex items-center gap-1.5 transition cursor-pointer"
+                >
+                  <ArrowLeftRight className="w-3.5 h-3.5 rotate-180" />
+                  <span>Back to Home</span>
+                </button>
+                <div className="flex flex-col items-center mb-8 mt-4">
                   <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#14B8A6] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-teal-500/10 mb-4">
                     <Sparkles className="w-7 h-7 text-white" />
                   </div>
@@ -864,6 +870,215 @@ export default function Home() {
         </footer>
       </div>
     );
+              <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#14B8A6] to-[#8B5CF6] flex items-center justify-center text-white shadow-lg shadow-teal-500/10 shrink-0">
+                <Sparkles className="w-5 h-5 animate-pulse" />
+              </div>
+              <div>
+                <span className="font-extrabold text-lg tracking-tight text-white">Expiry Copilot</span>
+                <span className="block text-[9px] text-teal-400 font-bold uppercase tracking-widest mt-[-2px]">Waste Intelligence</span>
+              </div>
+            </div>
+            
+            <button
+              onClick={() => setShowLogin(true)}
+              className="px-5 py-2.5 bg-zinc-900/80 hover:bg-zinc-800 text-zinc-200 border border-zinc-800 hover:border-zinc-700 rounded-xl text-sm font-semibold tracking-wide transition duration-300 hover:scale-105 active:scale-95 shadow-lg cursor-pointer"
+            >
+              Sign In
+            </button>
+          </header>
+
+          {/* Hero Content Section */}
+          <main className="relative z-10 flex-1 flex flex-col justify-center items-center px-6 md:px-12 py-16 text-center max-w-5xl mx-auto">
+            {/* Announcement Badge */}
+            <div className="mb-6 flex items-center gap-2 px-3 py-1.5 bg-teal-500/10 border border-teal-500/20 rounded-full text-xs text-teal-400 font-medium tracking-wide shadow-inner">
+              <span className="w-2 h-2 rounded-full bg-teal-400 animate-ping" />
+              <span>Version 1.2 Enterprise Waste Optimization Live</span>
+            </div>
+
+            <h1 className="text-4xl md:text-6xl font-black tracking-tight leading-[1.1] mb-6">
+              Waging War On <br className="hidden md:inline" />
+              <span className="bg-gradient-to-r from-[#14B8A6] via-[#06B6D4] to-[#8B5CF6] bg-clip-text text-transparent drop-shadow-sm">
+                Inventory Expiry & Waste
+              </span>
+            </h1>
+
+            <p className="text-zinc-400 text-base md:text-lg max-w-3xl leading-relaxed mb-10">
+              Expiry Copilot is a next-generation Enterprise Waste Intelligence Platform. 
+              Monitor batch-level expiry timelines, leverage smart dynamic markdown recommendation engines, 
+              and enforce automatic FEFO logic to slash operational waste up to 45%.
+            </p>
+
+            {/* CTAs */}
+            <div className="flex flex-col sm:flex-row gap-4 mb-16 justify-center w-full sm:w-auto">
+              <button
+                onClick={() => setShowLogin(true)}
+                className="px-8 py-4 bg-gradient-to-r from-[#14B8A6] to-teal-600 text-zinc-950 font-extrabold rounded-xl transition duration-300 hover:shadow-xl hover:shadow-teal-500/25 hover:scale-105 active:scale-95 text-base cursor-pointer"
+              >
+                Get Started
+              </button>
+              <a
+                href="#pillars"
+                className="px-8 py-4 bg-zinc-900/90 hover:bg-zinc-800 text-zinc-300 border border-zinc-800 hover:border-zinc-700 font-bold rounded-xl transition duration-300 hover:scale-105 active:scale-95 flex items-center justify-center gap-2 text-base"
+              >
+                Learn More
+                <ChevronRight className="w-4 h-4" />
+              </a>
+            </div>
+
+            {/* Micro Stats Panel */}
+            <div className="grid grid-cols-3 gap-6 md:gap-12 w-full max-w-4xl p-6 md:p-8 glass-panel border-zinc-800/80 bg-zinc-950/40 relative">
+              <div className="text-center">
+                <span className="block text-2xl md:text-4xl font-extrabold text-white tracking-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">45%</span>
+                <span className="block text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-semibold mt-1">Average Waste Saved</span>
+              </div>
+              <div className="border-l border-zinc-800/80 text-center pl-6 md:pl-12">
+                <span className="block text-2xl md:text-4xl font-extrabold text-white tracking-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">100%</span>
+                <span className="block text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-semibold mt-1">Automated FEFO</span>
+              </div>
+              <div className="border-l border-zinc-800/80 text-center pl-6 md:pl-12">
+                <span className="block text-2xl md:text-4xl font-extrabold text-white tracking-tight bg-gradient-to-b from-white to-zinc-400 bg-clip-text text-transparent">&lt;2.4s</span>
+                <span className="block text-[10px] md:text-xs text-zinc-500 uppercase tracking-widest font-semibold mt-1">AI Recommendation</span>
+              </div>
+            </div>
+          </main>
+
+          {/* Pillars of Intelligence Section */}
+          <section id="pillars" className="relative z-10 px-6 md:px-12 py-24 border-t border-zinc-800/40 bg-zinc-950/20 max-w-7xl mx-auto w-full">
+            <div className="text-center mb-16">
+              <h2 className="text-xs font-bold text-teal-400 uppercase tracking-widest mb-3">Core Pillars</h2>
+              <p className="text-3xl font-extrabold text-white tracking-tight">Supercharge Your Inventory Lifecycle</p>
+              <p className="text-zinc-500 text-sm max-w-2xl mx-auto mt-3">Advanced toolkits designed to bridge the gap between supply chain logs and proactive waste prevention.</p>
+            </div>
+
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              <div className="glass-panel glass-panel-hover p-6 flex flex-col gap-4">
+                <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400">
+                  <Package className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white">Interactive Catalog</h3>
+                <p className="text-zinc-400 text-xs leading-relaxed">
+                  Consolidated tracking of SKU attributes, supply networks, and individual batch cost margins.
+                </p>
+              </div>
+
+              <div className="glass-panel glass-panel-hover p-6 flex flex-col gap-4">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
+                  <Sparkles className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white">AI Clearance Engine</h3>
+                <p className="text-zinc-400 text-xs leading-relaxed">
+                  Real-time dynamic pricing markdown options suggested contextually by LLM intelligence.
+                </p>
+              </div>
+
+              <div className="glass-panel glass-panel-hover p-6 flex flex-col gap-4">
+                <div className="w-12 h-12 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400">
+                  <Barcode className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white">OCR Smart Scanning</h3>
+                <p className="text-zinc-400 text-xs leading-relaxed">
+                  Scan product images to dynamically extract batch numbers, manufacture timestamps, and expiry metadata.
+                </p>
+              </div>
+
+              <div className="glass-panel glass-panel-hover p-6 flex flex-col gap-4">
+                <div className="w-12 h-12 rounded-xl bg-purple-500/10 flex items-center justify-center text-purple-400">
+                  <Leaf className="w-6 h-6" />
+                </div>
+                <h3 className="text-lg font-bold text-white">Waste & ESG Metrics</h3>
+                <p className="text-zinc-400 text-xs leading-relaxed">
+                  Calculate and log saved food volume and carbon emissions offsets to share on sustainability dashboards.
+                </p>
+              </div>
+            </div>
+          </section>
+
+          {/* Simple Clean Footer */}
+          <footer className="relative z-10 border-t border-zinc-800/20 py-8 px-6 md:px-12 text-center text-xs text-zinc-600 bg-zinc-950/40">
+            <p>© {new Date().getFullYear()} Expiry Copilot Inc. Built for Enterprise Scale Waste Reduction. SEC-7709.</p>
+          </footer>
+        </div>
+      );
+    } else {
+      return (
+        <div className="min-h-screen bg-[#09090B] relative flex items-center justify-center p-4 overflow-hidden">
+          {/* Glow blobs */}
+          <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#14B8A6] opacity-10 blur-[120px] pointer-events-none animate-pulse"></div>
+          <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#8B5CF6] opacity-10 blur-[120px] pointer-events-none animate-pulse" style={{ animationDelay: "2s" }}></div>
+
+          <div className="glass-panel w-full max-w-md p-8 relative z-10">
+            <button
+              onClick={() => setShowLogin(false)}
+              className="absolute top-6 left-6 text-xs text-zinc-500 hover:text-white flex items-center gap-1.5 transition cursor-pointer"
+            >
+              <ArrowLeftRight className="w-3.5 h-3.5 rotate-180" />
+              <span>Back to Home</span>
+            </button>
+
+            <div className="flex flex-col items-center mb-8 mt-4">
+              <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#14B8A6] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-teal-500/10 mb-4">
+                <Sparkles className="w-7 h-7 text-white" />
+              </div>
+              <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">Expiry Copilot</h1>
+              <p className="text-zinc-500 text-xs mt-2 uppercase tracking-widest font-semibold">Inventory Waste Intelligence Platform</p>
+            </div>
+
+            {authError && (
+              <div className="bg-red-500/10 border border-red-500/20 text-[#EF4444] rounded-xl p-3 text-sm mb-6 flex items-center gap-2">
+                <ShieldAlert className="w-4 h-4 flex-shrink-0" />
+                <span>{authError}</span>
+              </div>
+            )}
+
+            <form onSubmit={handleLogin} className="space-y-5">
+              <div>
+                <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wide">Manager Credentials</label>
+                <input
+                  type="text"
+                  className="w-full glass-input"
+                  placeholder="Enter Username"
+                  value={loginUsername}
+                  onChange={e => setLoginUsername(e.target.value)}
+                  required
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wide">Password</label>
+                <input
+                  type="password"
+                  className="w-full glass-input"
+                  placeholder="••••••••"
+                  value={loginPassword}
+                  onChange={e => setLoginPassword(e.target.value)}
+                  required
+                />
+              </div>
+
+              <button
+                type="submit"
+                disabled={authLoading}
+                className="w-full py-3.5 bg-gradient-to-r from-[#14B8A6] to-teal-600 text-zinc-950 font-bold rounded-xl transition duration-300 hover:shadow-lg hover:shadow-teal-500/20 active:scale-95 disabled:opacity-50 cursor-pointer"
+              >
+                {authLoading ? "Decrypting Vault Keys..." : "Verify Identity"}
+              </button>
+            </form>
+
+            <div className="my-6 flex items-center gap-4">
+              <div className="h-px flex-1 bg-zinc-800" />
+              <span className="text-xs text-zinc-500 uppercase tracking-wider">Or continue with</span>
+              <div className="h-px flex-1 bg-zinc-800" />
+            </div>
+
+            <div id="google-signin-button" className="w-full" />
+
+            <div className="mt-8 text-center text-xs text-zinc-500">
+              Enterprise Security Node: <span className="text-[#14B8A6] font-mono">SEC-7709</span>. Standard AES-256 handshake.
+            </div>
+          </div>
+        </div>
+      );
+    }
+>>>>>>> 1e192715d1c379df4ab58de1edfb4d64c94f2cb6
   }
 
   // --- 2. RENDER MAIN WEB OPERATING SYSTEM ---
