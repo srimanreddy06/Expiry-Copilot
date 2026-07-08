@@ -64,11 +64,13 @@ import {
   reportsApi,
   isAuthenticated
 } from "../lib/api";
+import FloatingLines from "@/components/FloatingLines";
 
 export default function Home() {
   const [mounted, setMounted] = useState(false);
   const [token, setToken] = useState<string | null>(null);
   const [user, setUser] = useState<any>(null);
+  const [showLogin, setShowLogin] = useState<boolean>(false);
   
   // View navigation: 'dashboard' | 'products' | 'recommendations' | 'copilot' | 'forecast' | 'scanner' | 'reports' | 'settings'
   const [activeTab, setActiveTab] = useState<string>("dashboard");
@@ -606,75 +608,260 @@ export default function Home() {
     );
   }
 
-  // --- 1. RENDER AUTHENTICATION PANEL ---
+  // --- 1. RENDER AUTHENTICATION & LANDING PANEL ---
   if (!token) {
     return (
-      <div className="min-h-screen bg-[#09090B] relative flex items-center justify-center p-4 overflow-hidden">
-        {/* Glow blobs */}
-        <div className="absolute top-1/4 left-1/4 w-96 h-96 rounded-full bg-[#14B8A6] opacity-10 blur-[120px] pointer-events-none animate-pulse"></div>
-        <div className="absolute bottom-1/4 right-1/4 w-96 h-96 rounded-full bg-[#8B5CF6] opacity-10 blur-[120px] pointer-events-none animate-pulse" style={{ animationDelay: "2s" }}></div>
+      <div className="min-h-screen bg-[#09090B] relative overflow-hidden flex flex-col text-zinc-100 select-none">
+        {/* Floating Lines Background */}
+        <div className="absolute inset-0 z-0 opacity-60 pointer-events-none">
+          <FloatingLines
+            enabledWaves={['top', 'middle', 'bottom']}
+            lineCount={[8, 12, 16]}
+            lineDistance={[6, 5, 4]}
+            bendRadius={6.0}
+            bendStrength={-0.8}
+            interactive={true}
+            parallax={true}
+            linesGradient={["#14B8A6", "#0D9488", "#8B5CF6", "#6D28D9", "#F59E0B"]}
+            mixBlendMode="screen"
+          />
+        </div>
 
-        <div className="glass-panel w-full max-w-md p-8 relative z-10">
-          <div className="flex flex-col items-center mb-8">
-            <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#14B8A6] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-teal-500/10 mb-4">
-              <Sparkles className="w-7 h-7 text-white" />
+        {/* Header navigation */}
+        <header className="w-full max-w-7xl mx-auto px-6 py-6 flex items-center justify-between relative z-10">
+          <div className="flex items-center gap-3">
+            <div className="w-10 h-10 rounded-xl bg-gradient-to-tr from-[#14B8A6] to-[#8B5CF6] flex items-center justify-center text-white shadow-lg shadow-teal-500/10">
+              <Sparkles className="w-5 h-5" />
             </div>
-            <h1 className="text-3xl font-bold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-500 bg-clip-text text-transparent">Expiry Copilot</h1>
-            <p className="text-zinc-500 text-xs mt-2 uppercase tracking-widest font-semibold">Inventory Waste Intelligence Platform</p>
+            <div>
+              <h1 className="text-xl font-bold tracking-tight bg-gradient-to-r from-white via-zinc-200 to-zinc-400 bg-clip-text text-transparent">
+                Expiry Copilot
+              </h1>
+              <p className="text-[9px] text-[#14B8A6] font-semibold tracking-wider uppercase">Waste Intelligence OS</p>
+            </div>
           </div>
+          <button
+            onClick={() => setShowLogin(!showLogin)}
+            className="px-5 py-2 rounded-xl text-xs font-semibold border border-zinc-800 bg-zinc-900/60 hover:bg-zinc-900 hover:border-zinc-700 transition flex items-center gap-2 cursor-pointer"
+          >
+            {showLogin ? (
+              <>
+                <span>View Product Details</span>
+                <ArrowRight className="w-3.5 h-3.5" />
+              </>
+            ) : (
+              <>
+                <span>Sign In</span>
+                <ArrowRight className="w-3.5 h-3.5 text-[#14B8A6]" />
+              </>
+            )}
+          </button>
+        </header>
 
-          {authError && (
-            <div className="bg-red-500/10 border border-red-500/20 text-[#EF4444] rounded-xl p-3 text-sm mb-6 flex items-center gap-2">
-              <ShieldAlert className="w-4 h-4 flex-shrink-0" />
-              <span>{authError}</span>
+        {/* Main Content Area */}
+        <main className="flex-1 w-full max-w-7xl mx-auto px-6 py-10 flex flex-col justify-center relative z-10 overflow-y-auto">
+          {showLogin ? (
+            <div className="w-full flex items-center justify-center py-6">
+              <div className="glass-panel w-full max-w-md p-8 relative">
+                <div className="flex flex-col items-center mb-8">
+                  <div className="w-14 h-14 rounded-2xl bg-gradient-to-tr from-[#14B8A6] to-[#8B5CF6] flex items-center justify-center shadow-lg shadow-teal-500/10 mb-4">
+                    <Sparkles className="w-7 h-7 text-white" />
+                  </div>
+                  <h2 className="text-2xl font-bold tracking-tight text-white">Access Manager Console</h2>
+                  <p className="text-zinc-500 text-xs mt-1 uppercase tracking-widest font-semibold">Verify identity nodes</p>
+                </div>
+
+                {authError && (
+                  <div className="bg-red-500/10 border border-red-500/20 text-[#EF4444] rounded-xl p-3 text-sm mb-6 flex items-center gap-2">
+                    <ShieldAlert className="w-4 h-4 flex-shrink-0" />
+                    <span>{authError}</span>
+                  </div>
+                )}
+
+                <form onSubmit={handleLogin} className="space-y-5">
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wide">Manager Username</label>
+                    <input
+                      type="text"
+                      className="w-full glass-input text-xs"
+                      placeholder="Enter Username"
+                      value={loginUsername}
+                      onChange={e => setLoginUsername(e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wide">Password</label>
+                    <input
+                      type="password"
+                      className="w-full glass-input text-xs"
+                      placeholder="••••••••"
+                      value={loginPassword}
+                      onChange={e => setLoginPassword(e.target.value)}
+                      required
+                    />
+                  </div>
+
+                  <button
+                    type="submit"
+                    disabled={authLoading}
+                    className="w-full py-3 bg-gradient-to-r from-[#14B8A6] to-teal-600 text-zinc-950 font-bold rounded-xl transition duration-300 hover:shadow-lg hover:shadow-teal-500/20 active:scale-95 disabled:opacity-50 text-xs cursor-pointer"
+                  >
+                    {authLoading ? "Decrypting Vault Keys..." : "Verify Identity"}
+                  </button>
+                </form>
+
+                <div className="my-6 flex items-center gap-4">
+                  <div className="h-px flex-1 bg-zinc-800" />
+                  <span className="text-xs text-zinc-500 uppercase tracking-wider">Or continue with</span>
+                  <div className="h-px flex-1 bg-zinc-800" />
+                </div>
+
+                <div id="google-signin-button" className="w-full flex justify-center" />
+
+                <div className="mt-8 text-center text-xs text-zinc-500">
+                  Enterprise Security Node: <span className="text-[#14B8A6] font-mono">SEC-7709</span>. Standard AES-256 handshake.
+                </div>
+              </div>
+            </div>
+          ) : (
+            <div className="w-full space-y-16">
+              {/* Hero Section */}
+              <div className="max-w-3xl space-y-6">
+                <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full border border-teal-500/20 bg-teal-500/5 text-[10px] text-[#14B8A6] font-semibold tracking-wide uppercase">
+                  <Zap className="w-3.5 h-3.5 animate-pulse" />
+                  <span>Version 1.2 — Live Multi-Batch Forecasting</span>
+                </div>
+                <h2 className="text-4xl md:text-6xl font-extrabold tracking-tight text-white leading-[1.1]">
+                  AI-Powered Inventory <br />
+                  <span className="bg-gradient-to-r from-[#14B8A6] via-teal-400 to-[#8B5CF6] bg-clip-text text-transparent">
+                    Waste Intelligence
+                  </span>
+                </h2>
+                <p className="text-zinc-400 text-sm md:text-base max-w-2xl leading-relaxed">
+                  Expiry Copilot leverages advanced Artificial Intelligence to track batches, predict shelf-life expirations, recommend clearance pricing, forecast local demand, and automate FEFO routing for retail pharmacies, supermarkets, and healthcare facilities.
+                </p>
+                <div className="flex flex-wrap gap-4 pt-2">
+                  <button
+                    onClick={() => setShowLogin(true)}
+                    className="px-8 py-4 bg-gradient-to-r from-[#14B8A6] to-teal-600 hover:from-teal-400 hover:to-teal-500 text-zinc-950 font-bold rounded-xl transition shadow-lg hover:shadow-teal-500/20 active:scale-95 flex items-center gap-2 cursor-pointer text-sm"
+                  >
+                    <span>Get Started</span>
+                    <ArrowRight className="w-4 h-4" />
+                  </button>
+                  <a
+                    href="#features"
+                    className="px-6 py-4 border border-zinc-800 bg-zinc-950/40 hover:bg-zinc-950/80 text-zinc-300 rounded-xl transition text-sm flex items-center justify-center"
+                  >
+                    Explore Features
+                  </a>
+                </div>
+              </div>
+
+              {/* Stats Bar */}
+              <div className="grid grid-cols-2 md:grid-cols-4 gap-4 py-8 border-y border-zinc-900 bg-zinc-950/20 backdrop-blur-sm rounded-2xl px-6">
+                <div>
+                  <div className="text-2xl md:text-3xl font-extrabold text-[#14B8A6]">92%</div>
+                  <div className="text-xs text-zinc-500 mt-1">Average Inventory Health Score</div>
+                </div>
+                <div>
+                  <div className="text-2xl md:text-3xl font-extrabold text-[#8B5CF6]">8.4 Tons</div>
+                  <div className="text-xs text-zinc-500 mt-1">Total Food & Drug Waste Prevented</div>
+                </div>
+                <div>
+                  <div className="text-2xl md:text-3xl font-extrabold text-[#F59E0B]">₹12,450</div>
+                  <div className="text-xs text-zinc-500 mt-1">Average Weekly Revenue Reclaimed</div>
+                </div>
+                <div>
+                  <div className="text-2xl md:text-3xl font-extrabold text-teal-400">48.2 Tons</div>
+                  <div className="text-xs text-zinc-500 mt-1">Carbon Emissions Reduced</div>
+                </div>
+              </div>
+
+              {/* Features Grid */}
+              <div id="features" className="space-y-6">
+                <div>
+                  <h3 className="text-xl font-bold text-white tracking-wide">Enterprise Operations Intelligence</h3>
+                  <p className="text-zinc-500 text-xs mt-1">Supercharge inventory health with tailored machine learning capabilities.</p>
+                </div>
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  {/* Card 1 */}
+                  <div className="glass-panel glass-panel-hover p-6 space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-[#14B8A6]">
+                      <Package className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">Dynamic Batch & FEFO Tracking</h4>
+                    <p className="text-zinc-400 text-xs leading-relaxed">
+                      Automatically maps batches to their storage node locations and deducts stock based on First-Expired-First-Out logic.
+                    </p>
+                  </div>
+                  {/* Card 2 */}
+                  <div className="glass-panel glass-panel-hover p-6 space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-purple-500/10 flex items-center justify-center text-[#8B5CF6]">
+                      <Zap className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">Discount Markdown Engine</h4>
+                    <p className="text-zinc-400 text-xs leading-relaxed">
+                      Runs complex degradation checks to recommend dynamic discount curves, maximizing sell-through rates before product expiration.
+                    </p>
+                  </div>
+                  {/* Card 3 */}
+                  <div className="glass-panel glass-panel-hover p-6 space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-amber-500/10 flex items-center justify-center text-[#F59E0B]">
+                      <Cpu className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">OCR Invoicing Label Scanner</h4>
+                    <p className="text-zinc-400 text-xs leading-relaxed">
+                      Upload consignment invoices or drop box label images. The AI extracts SKU, batch code, expiry, and quantity in under 2 seconds.
+                    </p>
+                  </div>
+                  {/* Card 4 */}
+                  <div className="glass-panel glass-panel-hover p-6 space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-[#8B5CF6]/10 flex items-center justify-center text-[#8B5CF6]">
+                      <MessageSquare className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">Interactive Chat Copilot</h4>
+                    <p className="text-zinc-400 text-xs leading-relaxed">
+                      Ask your AI companion about stock items, request natural-language translations to raw database SQL queries, and manage logs.
+                    </p>
+                  </div>
+                  {/* Card 5 */}
+                  <div className="glass-panel glass-panel-hover p-6 space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-teal-500/10 flex items-center justify-center text-teal-400">
+                      <TrendingUp className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">ML Demand Forecasting</h4>
+                    <p className="text-zinc-400 text-xs leading-relaxed">
+                      Computes customer purchasing behavior and seasonality trends to prevent waste and avoid costly out-of-stock events.
+                    </p>
+                  </div>
+                  {/* Card 6 */}
+                  <div className="glass-panel glass-panel-hover p-6 space-y-4">
+                    <div className="w-10 h-10 rounded-xl bg-green-500/10 flex items-center justify-center text-[#22C55E]">
+                      <Leaf className="w-5 h-5" />
+                    </div>
+                    <h4 className="text-sm font-bold text-white">Carbon & Green Impact Tracking</h4>
+                    <p className="text-zinc-400 text-xs leading-relaxed">
+                      Visualizes saved organic food tons and pharmaceutical waste, providing auditable ESG data logs directly inside reports.
+                    </p>
+                  </div>
+                </div>
+              </div>
             </div>
           )}
+        </main>
 
-          <form onSubmit={handleLogin} className="space-y-5">
-            <div>
-              <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wide">Manager Credentials</label>
-              <input
-                type="text"
-                className="w-full glass-input"
-                placeholder="Enter Username"
-                value={loginUsername}
-                onChange={e => setLoginUsername(e.target.value)}
-                required
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-semibold text-zinc-400 mb-2 uppercase tracking-wide">Password</label>
-              <input
-                type="password"
-                className="w-full glass-input"
-                placeholder="••••••••"
-                value={loginPassword}
-                onChange={e => setLoginPassword(e.target.value)}
-                required
-              />
-            </div>
-
-            <button
-              type="submit"
-              disabled={authLoading}
-              className="w-full py-3.5 bg-gradient-to-r from-[#14B8A6] to-teal-600 text-zinc-950 font-bold rounded-xl transition duration-300 hover:shadow-lg hover:shadow-teal-500/20 active:scale-95 disabled:opacity-50"
-            >
-              {authLoading ? "Decrypting Vault Keys..." : "Verify Identity"}
-            </button>
-          </form>
-
-          <div className="my-6 flex items-center gap-4">
-            <div className="h-px flex-1 bg-zinc-800" />
-            <span className="text-xs text-zinc-500 uppercase tracking-wider">Or continue with</span>
-            <div className="h-px flex-1 bg-zinc-800" />
+        {/* Footer */}
+        <footer className="w-full max-w-7xl mx-auto px-6 py-6 border-t border-zinc-900/60 relative z-10 flex flex-col md:flex-row items-center justify-between text-[11px] text-zinc-500 gap-4">
+          <p>© {new Date().getFullYear()} Expiry Copilot Inc. All rights reserved.</p>
+          <div className="flex gap-4">
+            <span className="hover:text-zinc-400 transition cursor-pointer">Privacy Policy</span>
+            <span>•</span>
+            <span className="hover:text-zinc-400 transition cursor-pointer">Terms of Service</span>
+            <span>•</span>
+            <span className="hover:text-zinc-400 transition cursor-pointer">Node: SEC-7709</span>
           </div>
-
-          <div id="google-signin-button" className="w-full" />
-
-          <div className="mt-8 text-center text-xs text-zinc-500">
-            Enterprise Security Node: <span className="text-[#14B8A6] font-mono">SEC-7709</span>. Standard AES-256 handshake.
-          </div>
-        </div>
+        </footer>
       </div>
     );
   }
@@ -1274,7 +1461,7 @@ export default function Home() {
                                 onClick={(e) => {
                                   e.stopPropagation();
                                   setSaleForm({ ...saleForm, productId: p.id.toString() });
-                                  setRecordSaleOpen(true);
+                                  setRecordSaleModal(true);
                                 }}
                                 className="px-2.5 py-1 bg-zinc-900 border border-zinc-800 hover:border-teal-500/30 hover:text-white rounded text-[10px] font-bold"
                               >

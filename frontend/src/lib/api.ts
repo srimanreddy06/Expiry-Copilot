@@ -17,11 +17,24 @@ export function isAuthenticated() {
 
 // Clean fetch wrapper
 async function apiFetch(endpoint: string, options: RequestInit = {}) {
-  const headers = {
+  const headers: Record<string, string> = {
     "Content-Type": "application/json",
     ...getAuthHeaders(),
-    ...options.headers,
-  };
+  } as Record<string, string>;
+
+  if (options.headers) {
+    if (options.headers instanceof Headers) {
+      options.headers.forEach((value, key) => {
+        headers[key] = value;
+      });
+    } else if (Array.isArray(options.headers)) {
+      options.headers.forEach(([key, value]) => {
+        headers[key] = value;
+      });
+    } else {
+      Object.assign(headers, options.headers);
+    }
+  }
 
   try {
     const res = await fetch(`${API_BASE_URL}${endpoint}`, {
