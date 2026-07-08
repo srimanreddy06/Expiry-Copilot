@@ -305,7 +305,7 @@ export default function Home() {
     }, 100);
 
     return () => clearInterval(checkGoogleLoaded);
-  }, [token]);
+  }, [token, showLogin]);
 
   const handleLogout = () => {
     authApi.logout();
