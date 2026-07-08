@@ -854,6 +854,17 @@ export default function Home() {
                   </div>
                 </div>
               </div>
+
+              {/* Mission Statement / About Section */}
+              <div className="glass-panel p-8 md:p-10 space-y-4 bg-zinc-950/30 backdrop-blur-md border-zinc-800/80">
+                <h3 className="text-lg font-bold text-white tracking-wide">Minimizing Global Waste, Maximizing Yield</h3>
+                <p className="text-zinc-400 text-xs leading-relaxed max-w-4xl">
+                  Expiry Copilot was founded on the belief that environmental sustainability and financial health go hand in hand. Every year, retail pharmacies, supermarkets, and hospital networks discard billions of dollars in inventory due to basic supply chains lacking expiry foresight.
+                </p>
+                <p className="text-zinc-400 text-xs leading-relaxed max-w-4xl">
+                  By providing intelligent FEFO routing, predictive shelf-life analytics, dynamic clearance discounts, and carbon offset reporting, we help organizations automate compliance, recover lost cost margins, and actively mitigate landfill waste.
+                </p>
+              </div>
             </div>
           )}
         </main>
