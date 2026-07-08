@@ -273,7 +273,7 @@ export default function Home() {
   const initializeGoogleSignIn = () => {
     if (typeof window !== "undefined" && (window as any).google && !token) {
       try {
-        const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "68242790289-jevplc3cfgo358ado5bj2gpikfq94kug.apps.googleusercontent.com";
+        const clientId = process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID || "677813959947-kmljt8u050giu471lkpo4kh4t7actp02.apps.googleusercontent.com";
         console.log("Google Client ID from env:", clientId);
         (window as any).google.accounts.id.initialize({
           client_id: clientId,
